@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Letter For You 💌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/styles/letter.css">
+</head>
+<body>
+
+  <!-- BACKGROUND CANVASES -->
+  <canvas id="leaf-canvas"></canvas>
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- ══════════════════════════════════════
+       COUNTDOWN SCREEN (shown before release)
+  ══════════════════════════════════════ -->
+  <div class="screen hidden" id="countdown-screen">
+    <p class="title">Something is coming for you 💜</p>
+    <p class="subtitle">A little letter is waiting to be opened…</p>
+
+    <div class="countdown-box">
+      <div class="countdown-icon">💌</div>
+      <p class="countdown-label">Opens in</p>
+
+      <div class="countdown-units">
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-days">00</div>
+          <div class="countdown-word">days</div>
+        </div>
+        <div class="countdown-colon">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-hours">00</div>
+          <div class="countdown-word">hours</div>
+        </div>
+        <div class="countdown-colon">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-mins">00</div>
+          <div class="countdown-word">mins</div>
+        </div>
+        <div class="countdown-colon">:</div>
+        <div class="countdown-unit">
+          <div class="countdown-num" id="cd-secs">00</div>
+          <div class="countdown-word">secs</div>
+        </div>
+      </div>
+
+      <p class="countdown-date-label" id="countdown-date-label"></p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       LOCK SCREEN
+  ══════════════════════════════════════ -->
+  <div class="screen hidden" id="lock-screen">
+    <p class="title">Something is waiting for you 💜</p>
+    <p class="subtitle">Turn the dials to the right combination</p>
+    <p class="subtitle">(The date when we first met.)</p>
+
+    <!-- Heart-shaped lock -->
+    <div class="heart-lock-outer" id="heart-lock-outer">
+
+      <!-- Frosted glass fill clipped to heart shape -->
+      <div class="heart-clip">
+        <div class="heart-fill"></div>
+      </div>
+
+      <!-- SVG border & sheen overlay -->
+      <svg class="heart-border" viewBox="0 0 320 304" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hbg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#d8c8ff" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#f4a0c0" stop-opacity="0.7"/>
+          </linearGradient>
+          <linearGradient id="sheen" x1="20%" y1="0%" x2="80%" y2="100%">
+            <stop offset="0%"   stop-color="white" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="white" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M160,270 C140,255 20,185 20,100 C20,55 52,20 95,20 C118,20 140,32 160,52 C180,32 202,20 225,20 C268,20 300,55 300,100 C300,185 180,255 160,270 Z"
+          fill="url(#sheen)" stroke="url(#hbg)" stroke-width="2.5"/>
+        <path d="M160,252 C142,238 38,174 38,100 C38,63 65,38 95,38 C116,38 136,49 160,70 C184,49 204,38 225,38 C255,38 282,63 282,100 C282,174 178,238 160,252 Z"
+          fill="none" stroke="rgba(187,157,255,0.3)" stroke-width="1"/>
+      </svg>
+
+      <div class="heart-content">
+        <div class="lock-icon" id="lock-icon">🔒</div>
+        <div class="rollers-wrap" id="rollers-wrap"></div>
+        <button class="unlock-btn" id="unlock-btn">✦ Unlock ✦</button>
+        <p class="error-msg" id="error-msg"></p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       LETTER SCREEN (shown after unlock)
+  ══════════════════════════════════════ -->
+  <div class="screen hidden" id="letter-screen">
+    <p class="title">Just for you 💜</p>
+
+    <div class="envelope-wrap" id="envelope" title="Click to read your letter">
+      <svg viewBox="0 0 260 168" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="eb" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   stop-color="#ede5ff"/>
+            <stop offset="100%" stop-color="#f8d7ee"/>
+          </linearGradient>
+          <linearGradient id="ef" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"   stop-color="#d8c8ff"/>
+            <stop offset="100%" stop-color="#c4a8f8"/>
+          </linearGradient>
+        </defs>
+        <rect x="6" y="28" width="248" height="136" rx="14" fill="url(#eb)" stroke="#bb9dff" stroke-width="1.5"/>
+        <path d="M6,28 L130,108 L254,28 Z" fill="url(#ef)" stroke="#bb9dff" stroke-width="1.5"/>
+        <line x1="6"   y1="164" x2="130" y2="108" stroke="#bb9dff" stroke-width="1" opacity="0.5"/>
+        <line x1="254" y1="164" x2="130" y2="108" stroke="#bb9dff" stroke-width="1" opacity="0.5"/>
+        <path d="M130,89 C127,85 120,78 120,73 C120,67 126,64 130,70 C134,64 140,67 140,73 C140,78 133,85 130,89Z"
+          fill="#d4688e" opacity="0.9"/>
+        <rect x="50" y="88" width="160" height="64" rx="6" fill="white" stroke="#d8c8ff" stroke-width="1" opacity="0.7"/>
+        <line x1="68" y1="106" x2="192" y2="106" stroke="#bb9dff" stroke-width="1" opacity="0.5"/>
+        <line x1="68" y1="118" x2="192" y2="118" stroke="#bb9dff" stroke-width="1" opacity="0.5"/>
+        <line x1="68" y1="130" x2="150" y2="130" stroke="#bb9dff" stroke-width="1" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <p class="open-hint">✦ Click the envelope to read your letter ✦</p>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       LETTER OVERLAY (popup)
+  ══════════════════════════════════════ -->
+  <div id="letter-overlay">
+    <div class="letter-paper">
+      <button class="letter-close" id="close-letter">✕</button>
+
+      <h1 class="letter-header">Hello, My Bebe,</h1>
+      <div class="letter-divider"></div>
+
+      <div class="letter-body">
+        <p>I wrote this letter because I don't have much to do right now, and next time I'll probably be busy. I just want to tell you that <em>I'm very thankful to have you in my life.</em> We've only known each other for seven months, but I'm really, really grateful that I met you, even if things were a bit messy at the beginning.</p>
+        <p>I've told you many times that I'm not good with words and that I struggle to express what I feel, but <em>I truly admire you.</em> You're so beautiful, and you know… <em>hot</em>, HAHAHAHA. I also appreciate how much effort you put in. Even when you're sick, lacking sleep, or dealing with anything else, you still make time to see me, even when I'm busy or don't always have time.</p>
+        <p>I'm also thankful that whenever I feel down or go through episodes, <em>you're always there for me.</em> You genuinely care, and you don't realize that just by talking to me, <em>you already make my day and lift my mood so easily.</em> I also appreciate your patience, especially when I overthink and feel like <em>I'm not enough sometimes.</em> I know I've told you this before, but you're so patient in reassuring me that <em>you'll choose me no matter what.</em> Don't look for someone else, okay? HAHAHAHAH.</p>
+        <p>By the way, I feel like I'm saying a lot already. I just really want to say <em>thank you</em>, and I appreciate you so much. <em>I love you</em>, and even if we're not officially together, I genuinely care about you. I'll do my best to become a better person, for you and for us. Please take care of yourself. <em>I'm always here, caring for you and looking up to you.</em></p>
+        <p>Thank you for always being there for me. <em>Mwaa 💕</em></p>
+      </div>
+
+      <div class="letter-divider"></div>
+      <p class="letter-sign">Yours,<br>with all my heart 💜</p>
+      <div class="hearts-burst">♡ ♡ ♡ ♡ ♡</div>
+    </div>
+  </div>
+
+  <script src="../static/js/letter.js"></script>
+</body>
+</html>
