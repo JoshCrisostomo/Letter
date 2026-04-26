@@ -6,7 +6,7 @@
 // Format: new Date(year, monthIndex, day, hour, minute, second)
 // monthIndex is 0-based: Jan=0, Feb=1, … Dec=11
 // This example: April 27, 2026 at 1:00 AM
-const RELEASE_DATE = new Date(2026, 3, 27, 1, 0, 0);
+const RELEASE_DATE = new Date(2026, 3, 26, 1, 0, 0);
 
 // Your 6-digit PIN (the date you first met, e.g. MMDDYY)
 const SECRET = "000000"; // ← change this
